@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "SodiumShared.h"
 
 extern CRITICAL_SECTION                htsqlCriticalSection;

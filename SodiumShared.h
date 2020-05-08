@@ -3,7 +3,8 @@
 
 #define SODIUM_SHARED_API				__declspec(dllexport)
 
-#include "stdafx.h"
+#include "pch.h"
+
 #include <io.h>
 #include "base64.h"
 
