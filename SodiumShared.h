@@ -24,6 +24,7 @@ typedef void * HANDLE;
 	SODIUM_SHARED_API void		mkFreeAdv(HANDLE pHeapHandle, void **ptr);
 	SODIUM_SHARED_API void		* mkReAlloc(HANDLE pHeapHandle, void *ptr, size_t newmemsize);
 	SODIUM_SHARED_API char		* mkStrcat(HANDLE pHeapHandle, const char *sourceFile, int sourceLine, const char * first, ...);
+	SODIUM_SHARED_API wchar_t   * mkStrcatW(HANDLE pHeapHandle, const char* sourceFile, int sourceLine, const wchar_t* first, ...);
 	SODIUM_SHARED_API char		* mkStrdup(HANDLE pHeapHandle, const char *sourceStr, const char *sourceFile, int sourceLine);
 	SODIUM_SHARED_API wchar_t	* mkStrdupW(HANDLE pHeapHandle, const wchar_t *sourceStr, const char *sourceFile, int sourceLine);
 	SODIUM_SHARED_API char		* mkStrdupN(HANDLE pHeapHandle, const char *sourceStr, int len, const char *sourceFile, int sourceLine);

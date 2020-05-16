@@ -166,8 +166,15 @@ SODIUM_SHARED_API char* mkStrdupN(HANDLE pHeapHandle, const char *sourceStr, int
 }
 
 
-SODIUM_SHARED_API char *mkStrcat(HANDLE pHeapHandle, const char *sourceFile, int sourceLine, const char *first, ...) {
-
+SODIUM_SHARED_API 
+char *
+mkStrcat(
+	HANDLE pHeapHandle, 
+	const char *sourceFile, 
+	int sourceLine, 
+	const char *first, ...
+)
+{
 	size_t memsize = 0;
 	char *tagSemanticValue = NULL;
 	const char *str = first;
@@ -199,6 +206,57 @@ SODIUM_SHARED_API char *mkStrcat(HANDLE pHeapHandle, const char *sourceFile, int
 			strcat_s(tagSemanticValue, memsize, str);
 		}
 		str = va_arg(vl, char*);
+	};
+	va_end(vl);
+
+	return tagSemanticValue;
+}
+
+SODIUM_SHARED_API 
+wchar_t *
+mkStrcatW(
+	HANDLE pHeapHandle, 
+	const char *sourceFile, 
+	int sourceLine, 
+	const wchar_t *first, ...
+)
+{
+	size_t memsize = 0;
+	wchar_t * tagSemanticValue = NULL;
+	const wchar_t * str = first;
+	va_list vl;
+
+	//  szTypes is the last argument specified; you must access   
+	//  all others using the variable-argument macros.  
+	va_start(vl, first);
+	str = first;
+	while (str != NULL) {
+		if (memsize == 0) {
+			if (str) {
+				size_t strSize = wcslen(str);
+				if (strSize > 0) {
+					memsize = (strSize * sizeof(wchar_t)) + sizeof(wchar_t);
+					tagSemanticValue = (wchar_t *)mkMalloc(pHeapHandle, memsize, sourceFile, sourceLine);
+					//strcpy_s(tagSemanticValue, memsize, str);
+					wcsncpy(tagSemanticValue, str, strSize);
+				}
+				else {
+					// we got "" string. that is, it is not NULL but an empty string
+					memsize = sizeof(wchar_t);
+					tagSemanticValue = (wchar_t *)mkMalloc(pHeapHandle, memsize, sourceFile, sourceLine);
+					//strcpy_s(tagSemanticValue, memsize, "");
+					wcsncpy(tagSemanticValue, L"", sizeof(wchar_t));
+				}
+			}
+		}
+		else {
+			size_t strSize = wcslen(str);
+			memsize += (strSize * sizeof(wchar_t)) + sizeof(wchar_t);
+			tagSemanticValue = (wchar_t *)mkReAlloc(pHeapHandle, tagSemanticValue, memsize);
+			//strcat_s(tagSemanticValue, memsize, str);
+			wcsncat(tagSemanticValue, str, strSize);
+		}
+		str = va_arg(vl, wchar_t *);
 	};
 	va_end(vl);
 
