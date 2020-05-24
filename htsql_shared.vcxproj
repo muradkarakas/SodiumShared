@@ -310,6 +310,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Licence.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
